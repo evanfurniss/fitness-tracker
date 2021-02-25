@@ -11,14 +11,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
+// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workouts", {useNewUrlParser:true, useFindAndModify:false})
 let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/workouts";
-mongoose.connect(MONGODB_URI,{  
-    useNewUrlParser:true,
-    useFindAndModify:false
-})
+mongoose.connect(MONGODB_URI,{ useNewUrlParser:true,/* useCreateIndex: true,*/ });
 
-require("./routes/db")(app);
-require("./routes/html")(app);
+app.use(require("./routes/db.js"))
+app.use(require("./routes/html.js"))
+// require("./routes/db");
+// require("./routes/html");
 
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);
