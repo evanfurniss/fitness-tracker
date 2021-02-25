@@ -21,16 +21,16 @@ const workoutSchema = new Schema({
             type: Number,
             required: "How long there bud?"
         },
-        weight: {
+        distance: {
             type: Number
         },
-        sets: {
+        weight: {
             type: Number
         },
         reps: {
             type: Number
         },
-        distance: {
+        sets: {
             type: Number
         }
     }]
@@ -44,9 +44,9 @@ const workoutSchema = new Schema({
 workoutSchema.virtual("totalDuration").get(() => {
     return this.exercises.reduce((total, exercise) => {
         return total + exercise.duration;
-    });
+    }, 0);
 });
 
-const Workout = mongoose.model("Workout", workoutSchema);
+const Workout = mongoose.model("Workouts", workoutSchema);
 
 module.exports = Workout;
