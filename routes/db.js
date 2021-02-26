@@ -8,6 +8,10 @@ app.get("/api/workouts", (req,res) => {
             totalDuration: { $sum: "$exercises.duration" }
         }
     }])
+    .sort({
+        _id: -1
+    })
+    .limit(1)
     .then(data => {
         res.json(data);
     })
@@ -17,7 +21,15 @@ app.get("/api/workouts", (req,res) => {
 });
 
 app.get("/api/workouts/range", (req, res) => {
-    Workout.find({})
+    Workout.aggregate([
+        {$addFields: {
+            totalDuration: { $sum: "$exercises.duration" }
+        }
+    }])
+    .sort({
+        _id: -1
+    })
+    .limit(7)
     .then(data => {
         res.json(data);
     })
